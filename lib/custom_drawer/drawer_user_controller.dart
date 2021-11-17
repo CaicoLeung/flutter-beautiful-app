@@ -51,7 +51,9 @@ class _DrawerUserControllerState extends State<DrawerUserController>
         if (scrolloffset != 1) {
           setState(() {
             scrolloffset = 1;
-            widget.onDrawerOpen!(true);
+            if (widget.onDrawerOpen != null) {
+              widget.onDrawerOpen!(true);
+            }
           });
         }
         iconAnimationController?.animateTo(0,
@@ -68,7 +70,9 @@ class _DrawerUserControllerState extends State<DrawerUserController>
         if (scrolloffset != 0) {
           setState(() {
             scrolloffset = 0;
-            widget.onDrawerOpen!(false);
+            if (widget.onDrawerOpen != null) {
+              widget.onDrawerOpen!(true);
+            }
           });
         }
         iconAnimationController?.animateTo(1,
