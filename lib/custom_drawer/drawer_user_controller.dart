@@ -174,13 +174,15 @@ class _DrawerUserControllerState extends State<DrawerUserController>
                               borderRadius: BorderRadius.circular(
                                   AppBar().preferredSize.height),
                               child: Center(
-                                child: widget.menuView ?? AnimatedIcon(
+                                child: widget.menuView ??
+                                    AnimatedIcon(
                                         icon: widget.animatedIconData ??
                                             AnimatedIcons.arrow_menu,
                                         progress: iconAnimationController!),
                               ),
                               onTap: () {
-                                FocusScope.of(context).requestFocus(FocusNode());
+                                FocusScope.of(context)
+                                    .requestFocus(FocusNode());
                                 onDrawerClick();
                               },
                             ),

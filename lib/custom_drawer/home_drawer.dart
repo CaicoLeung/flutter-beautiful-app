@@ -18,13 +18,31 @@ class HomeDrawer extends StatefulWidget {
   _HomeDrawerState createState() => _HomeDrawerState();
 }
 
-class _HomeDrawerState extends State<HomeDrawer> {
+class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateMixin {
   List<DrawerList>? drawerList;
+  AnimationController? rotationAnimationController;
+  Animation<double>? rotationAnimation;
 
   @override
   void initState() {
+    rotationAnimationController = AnimationController(vsync: this, duration: const Duration(seconds: 10));
+    rotationAnimation = Tween<double>(begin: 1, end: 3).animate(rotationAnimationController!)..addStatusListener((status) {
+      if(status == AnimationStatus.completed) {
+        rotationAnimationController!.reset();
+        rotationAnimationController!.forward();
+      } else if (status == AnimationStatus.dismissed) {
+        rotationAnimationController!.forward();
+      }
+    });
+    rotationAnimationController!.forward();
     setDrawerListArray();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    rotationAnimationController!.dispose();
+    super.dispose();
   }
 
   void setDrawerListArray() {
@@ -80,30 +98,36 @@ class _HomeDrawerState extends State<HomeDrawer> {
                         return ScaleTransition(
                           scale: AlwaysStoppedAnimation<double>(1 -
                               (widget.iconAnimationController!.value * 0.2)),
-                          child: RotationTransition(
-                            turns: AlwaysStoppedAnimation<double>(Tween<double>(
+                          child: GestureDetector(
+                            onTapDown: (_) => rotationAnimationController!.stop(canceled: false),
+                            onTapUp: (_) => rotationAnimationController!.forward(),
+                            child: RotationTransition(
+                              /* turns: AlwaysStoppedAnimation<double>(Tween<double>(
                                         begin: 0.0, end: 24.0)
                                     .animate(CurvedAnimation(
                                         parent: widget.iconAnimationController!,
                                         curve: Curves.fastOutSlowIn))
                                     .value /
-                                360),
-                            child: Container(
-                              width: 120,
-                              height: 120,
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: AppTheme.grey.withOpacity(0.6),
-                                        offset: const Offset(2, 4),
-                                        blurRadius: 8)
-                                  ]),
-                              child: ClipRRect(
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(60)),
-                                child:
-                                    Image.asset("assets/images/userImage.png"),
+                                360),*/
+                              turns: rotationAnimation!,
+                              alignment: Alignment.center,
+                              child: Container(
+                                width: 120,
+                                height: 120,
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: AppTheme.grey.withOpacity(0.6),
+                                          offset: const Offset(2, 4),
+                                          blurRadius: 8)
+                                    ]),
+                                child: ClipRRect(
+                                  borderRadius:
+                                  const BorderRadius.all(Radius.circular(60)),
+                                  child:
+                                  Image.asset("assets/images/userImage.png"),
+                                ),
                               ),
                             ),
                           ),
@@ -137,7 +161,30 @@ class _HomeDrawerState extends State<HomeDrawer> {
                 itemCount: drawerList?.length,
                 itemBuilder: (context, index) => inkwell(drawerList![index]),
               )),
-          Divider(height: 1,color: AppTheme.grey.withOpacity(0.6),)
+          Divider(height: 1,color: AppTheme.grey.withOpacity(0.6),),
+          Column(
+            children: [
+              ListTile(
+                title: const Text(
+                  "Sign Out",
+                  style: TextStyle(
+                    fontFamily: AppTheme.fontName,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16,
+                    color: AppTheme.darkerText
+                  ),
+                  textAlign: TextAlign.left,
+                ),
+                trailing: const Icon(Icons.power_settings_new, color: Colors.red,),
+                onTap: () {
+                  // TODO
+                },
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).padding.bottom,
+              )
+            ],
+          )
         ],
       ),
     );
