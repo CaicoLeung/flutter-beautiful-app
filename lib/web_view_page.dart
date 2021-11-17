@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -13,9 +12,6 @@ class WebViewPage extends StatefulWidget {
 }
 
 class _WebViewPageState extends State<WebViewPage> {
-  final Completer<WebViewController> _controller =
-      Completer<WebViewController>();
-
   @override
   void initState() {
     super.initState();
