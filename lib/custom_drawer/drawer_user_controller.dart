@@ -39,10 +39,10 @@ class _DrawerUserControllerState extends State<DrawerUserController>
   void initState() {
     animationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 2000));
-    iconAnimationController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 0));
+    iconAnimationController =
+        AnimationController(vsync: this, duration: Duration.zero);
     iconAnimationController?.animateTo(1,
-        duration: const Duration(milliseconds: 0), curve: Curves.fastOutSlowIn);
+        duration: Duration.zero, curve: Curves.fastOutSlowIn);
     scrollController =
         ScrollController(initialScrollOffset: widget.drawerWidth);
     scrollController?.addListener(() {
@@ -51,34 +51,28 @@ class _DrawerUserControllerState extends State<DrawerUserController>
         if (scrolloffset != 1) {
           setState(() {
             scrolloffset = 1;
-            if (widget.onDrawerOpen != null) {
-              widget.onDrawerOpen!(true);
-            }
+            widget.onDrawerOpen!(true);
           });
         }
         iconAnimationController?.animateTo(0,
-            duration: const Duration(milliseconds: 0),
-            curve: Curves.fastOutSlowIn);
+            duration: Duration.zero, curve: Curves.fastOutSlowIn);
       } else if (scrollController!.offset > 0 &&
           scrollController!.offset < widget.drawerWidth) {
         // 抽屉正在关闭
         iconAnimationController?.animateTo(
             (scrollController!.offset * 100 / widget.drawerWidth) / 100,
-            duration: const Duration(milliseconds: 0),
+            duration: Duration.zero,
             curve: Curves.fastOutSlowIn);
       } else {
         // 抽屉完全关闭
         if (scrolloffset != 0) {
           setState(() {
             scrolloffset = 0;
-            if (widget.onDrawerOpen != null) {
-              widget.onDrawerOpen!(false);
-            }
+            widget.onDrawerOpen!(false);
           });
         }
         iconAnimationController?.animateTo(1,
-            duration: const Duration(milliseconds: 0),
-            curve: Curves.fastOutSlowIn);
+            duration: Duration.zero, curve: Curves.fastOutSlowIn);
       }
     });
     // 这个方法在一帧的最后调用，并且只调用一次,使用这个方法就可以在判断渲染完成，并获取到元素的大小。
@@ -107,6 +101,7 @@ class _DrawerUserControllerState extends State<DrawerUserController>
   Widget build(BuildContext context) {
     final _contextWidth = MediaQuery.of(context).size.width;
     final _contextHeight = MediaQuery.of(context).size.height;
+    final bool isDrawerOpen = scrolloffset == 1;
 
     return Scaffold(
       backgroundColor: AppTheme.white,
@@ -133,9 +128,7 @@ class _DrawerUserControllerState extends State<DrawerUserController>
                         iconAnimationController: iconAnimationController,
                         callBackIndex: (index) {
                           onDrawerClick();
-                          if (widget.onDrawerCall != null) {
-                            widget.onDrawerCall!(index);
-                          }
+                          widget.onDrawerCall!(index);
                         },
                       ),
                     );
@@ -152,15 +145,15 @@ class _DrawerUserControllerState extends State<DrawerUserController>
                   ]),
                   child: Stack(
                     children: <Widget>[
-                      // scrolloffset == 1表示抽屉已关闭, 只允许在childt上touch交互
+                      // scrolloffset == 1表示抽屉打开, 右侧容器点击只能关闭抽屉
                       IgnorePointer(
-                        ignoring: scrolloffset == 1,
+                        ignoring: isDrawerOpen,
                         child: widget.screenView,
                       ),
-                      if (scrolloffset == 1)
-                        (InkWell(
+                      if (isDrawerOpen)
+                        InkWell(
                           onTap: onDrawerClick,
-                        )),
+                        ),
                       Padding(
                         padding: EdgeInsets.only(
                             top: MediaQuery.of(context).padding.top + 8,

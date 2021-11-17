@@ -81,7 +81,6 @@ class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateM
       backgroundColor: AppTheme.notWhite.withOpacity(0.5),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
             width: double.infinity,
@@ -90,7 +89,6 @@ class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateM
               padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   AnimatedBuilder(
                       animation: widget.iconAnimationController!,
@@ -110,7 +108,6 @@ class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateM
                                     .value /
                                 360),*/
                               turns: rotationAnimation!,
-                              alignment: Alignment.center,
                               child: Container(
                                 width: 120,
                                 height: 120,
@@ -213,11 +210,11 @@ class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateM
                     height: 46,
                   ),
                   const Padding(padding: EdgeInsets.all(4)),
-                  listDate.isAssetsImage ? SizedBox(
+                  if (listDate.isAssetsImage) SizedBox(
                     width: 24,
                     height: 24,
                     child: Image.asset(listDate.imageName, color: color,),
-                  ) : Icon(listDate.icon?.icon, color: color,),
+                  ) else Icon(listDate.icon?.icon, color: color,),
                   const Padding(padding: EdgeInsets.all(4)),
                   Text(
                     listDate.labelName,

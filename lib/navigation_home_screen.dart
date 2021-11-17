@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'app_theme.dart';
-import 'custom_drawer/drawer_user_controller.dart';
-
-import 'custom_drawer/helper.dart';
-import 'home_screen.dart';
+import 'package:startup_namer/app_theme.dart';
+import 'package:startup_namer/custom_drawer/drawer_user_controller.dart';
+import 'package:startup_namer/custom_drawer/helper.dart';
+import 'package:startup_namer/home_screen.dart';
 
 class NavigationHomeScreen extends StatefulWidget {
   const NavigationHomeScreen({Key? key}) : super(key: key);
@@ -27,13 +26,13 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
   Widget build(BuildContext context) {
     return Container(
       color: AppTheme.nearlyWhite,
-      child:  SafeArea(
+      child: SafeArea(
         top: false,
         bottom: false,
         child: Scaffold(
           backgroundColor: AppTheme.nearlyWhite,
           body: DrawerUserController(
-            screenIndex: drawerIndex!,
+            screenIndex: drawerIndex,
             drawerWidth: MediaQuery.of(context).size.width * 0.75,
             onDrawerCall: (index) {
               // TODO

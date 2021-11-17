@@ -1,13 +1,12 @@
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:startup_namer/app_theme.dart';
-import 'navigation_home_screen.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:startup_namer/navigation_home_screen.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -30,7 +29,7 @@ class MyApp extends StatelessWidget {
         systemNavigationBarDividerColor: Colors.transparent,
         systemNavigationBarIconBrightness: Brightness.dark));
 
-    return  MaterialApp(
+    return MaterialApp(
       title: "Flutter UI",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
