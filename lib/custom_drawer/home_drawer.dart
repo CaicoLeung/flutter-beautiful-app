@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:startup_namer/custom_drawer/helper.dart';
+import 'package:startup_namer/music_screen.dart';
 import '../app_theme.dart';
 
 class HomeDrawer extends StatefulWidget {
@@ -18,22 +19,26 @@ class HomeDrawer extends StatefulWidget {
   _HomeDrawerState createState() => _HomeDrawerState();
 }
 
-class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateMixin {
+class _HomeDrawerState extends State<HomeDrawer>
+    with SingleTickerProviderStateMixin {
   List<DrawerList>? drawerList;
   AnimationController? rotationAnimationController;
   Animation<double>? rotationAnimation;
 
   @override
   void initState() {
-    rotationAnimationController = AnimationController(vsync: this, duration: const Duration(seconds: 10));
-    rotationAnimation = Tween<double>(begin: 1, end: 3).animate(rotationAnimationController!)..addStatusListener((status) {
-      if(status == AnimationStatus.completed) {
-        rotationAnimationController!.reset();
-        rotationAnimationController!.forward();
-      } else if (status == AnimationStatus.dismissed) {
-        rotationAnimationController!.forward();
-      }
-    });
+    rotationAnimationController =
+        AnimationController(vsync: this, duration: const Duration(seconds: 10));
+    rotationAnimation =
+        Tween<double>(begin: 1, end: 3).animate(rotationAnimationController!)
+          ..addStatusListener((status) {
+            if (status == AnimationStatus.completed) {
+              rotationAnimationController!.reset();
+              rotationAnimationController!.forward();
+            } else if (status == AnimationStatus.dismissed) {
+              rotationAnimationController!.forward();
+            }
+          });
     rotationAnimationController!.forward();
     setDrawerListArray();
     super.initState();
@@ -97,33 +102,44 @@ class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateM
                           scale: AlwaysStoppedAnimation<double>(1 -
                               (widget.iconAnimationController!.value * 0.2)),
                           child: GestureDetector(
-                            onTapDown: (_) => rotationAnimationController!.stop(canceled: false),
-                            onTapUp: (_) => rotationAnimationController!.forward(),
-                            child: RotationTransition(
-                              /* turns: AlwaysStoppedAnimation<double>(Tween<double>(
+                            onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    fullscreenDialog: true,
+                                    builder: (context) => const MusicScreen())),
+                            onTapDown: (_) => rotationAnimationController!
+                                .stop(canceled: false),
+                            onTapUp: (_) =>
+                                rotationAnimationController!.forward(),
+                            child: Hero(
+                              tag: "poster",
+                              child: RotationTransition(
+                                /* turns: AlwaysStoppedAnimation<double>(Tween<double>(
                                         begin: 0.0, end: 24.0)
                                     .animate(CurvedAnimation(
                                         parent: widget.iconAnimationController!,
                                         curve: Curves.fastOutSlowIn))
                                     .value /
                                 360),*/
-                              turns: rotationAnimation!,
-                              child: Container(
-                                width: 120,
-                                height: 120,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: AppTheme.grey.withOpacity(0.6),
-                                          offset: const Offset(2, 4),
-                                          blurRadius: 8)
-                                    ]),
-                                child: ClipRRect(
-                                  borderRadius:
-                                  const BorderRadius.all(Radius.circular(60)),
-                                  child:
-                                  Image.asset("assets/images/userImage.png"),
+                                turns: rotationAnimation!,
+                                child: Container(
+                                  width: 120,
+                                  height: 120,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color:
+                                                AppTheme.grey.withOpacity(0.6),
+                                            offset: const Offset(2, 4),
+                                            blurRadius: 8)
+                                      ]),
+                                  child: ClipRRect(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(60)),
+                                    child: Image.asset(
+                                        "assets/images/userImage.png"),
+                                  ),
                                 ),
                               ),
                             ),
@@ -153,26 +169,31 @@ class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateM
           ),
           Expanded(
               child: ListView.builder(
-                physics: const BouncingScrollPhysics(),
-                padding: const EdgeInsets.all(0),
-                itemCount: drawerList?.length,
-                itemBuilder: (context, index) => inkwell(drawerList![index]),
-              )),
-          Divider(height: 1,color: AppTheme.grey.withOpacity(0.6),),
+            physics: const BouncingScrollPhysics(),
+            padding: EdgeInsets.zero,
+            itemCount: drawerList?.length,
+            itemBuilder: (context, index) => inkwell(drawerList![index]),
+          )),
+          Divider(
+            height: 1,
+            color: AppTheme.grey.withOpacity(0.6),
+          ),
           Column(
             children: [
               ListTile(
                 title: const Text(
                   "Sign Out",
                   style: TextStyle(
-                    fontFamily: AppTheme.fontName,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 16,
-                    color: AppTheme.darkerText
-                  ),
+                      fontFamily: AppTheme.fontName,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16,
+                      color: AppTheme.darkerText),
                   textAlign: TextAlign.left,
                 ),
-                trailing: const Icon(Icons.power_settings_new, color: Colors.red,),
+                trailing: const Icon(
+                  Icons.power_settings_new,
+                  color: Colors.red,
+                ),
                 onTap: () {
                   // TODO
                 },
@@ -188,11 +209,13 @@ class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateM
   }
 
   void navigationtoScreen(DrawerIndex indexScreen) {
-     widget.callBackIndex!(indexScreen);
+    widget.callBackIndex!(indexScreen);
   }
 
   Widget inkwell(DrawerList listDate) {
-    final color = widget.screenIndex == listDate.index ? Colors.blue : AppTheme.nearlyBlack;
+    final color = widget.screenIndex == listDate.index
+        ? Colors.blue
+        : AppTheme.nearlyBlack;
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -210,15 +233,27 @@ class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateM
                     height: 46,
                   ),
                   const Padding(padding: EdgeInsets.all(4)),
-                  if (listDate.isAssetsImage) SizedBox(
-                    width: 24,
-                    height: 24,
-                    child: Image.asset(listDate.imageName, color: color,),
-                  ) else Icon(listDate.icon?.icon, color: color,),
+                  if (listDate.isAssetsImage)
+                    SizedBox(
+                      width: 24,
+                      height: 24,
+                      child: Image.asset(
+                        listDate.imageName,
+                        color: color,
+                      ),
+                    )
+                  else
+                    Icon(
+                      listDate.icon?.icon,
+                      color: color,
+                    ),
                   const Padding(padding: EdgeInsets.all(4)),
                   Text(
                     listDate.labelName,
-                    style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16, color: color),
+                    style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
+                        color: color),
                     textAlign: TextAlign.left,
                   )
                 ],
