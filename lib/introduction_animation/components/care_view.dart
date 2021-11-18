@@ -37,7 +37,7 @@ class CareView extends StatelessWidget {
         Tween<Offset>(begin: Offset.zero, end: const Offset(-4, 0)).animate(
             CurvedAnimation(
                 parent: animationController,
-                curve: const Interval(0.2, 0.4, curve: Curves.fastOutSlowIn)));
+                curve: const Interval(0.4, 0.6, curve: Curves.fastOutSlowIn)));
     return SlideTransition(
       position: _firstHalfAnimation,
       child: SlideTransition(
