@@ -36,6 +36,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         textTheme: AppTheme.textTheme,
         platform: TargetPlatform.iOS,
+        canvasColor: Colors.transparent,
       ),
       home: const NavigationHomeScreen(),
     );
