@@ -68,7 +68,7 @@ class _MusicScreenState extends State<MusicScreen>
               image: ExactAssetImage("assets/images/userImage.png"),
               fit: BoxFit.cover)),
       child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+        filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
         child: Column(
           children: [
             Container(
@@ -76,25 +76,45 @@ class _MusicScreenState extends State<MusicScreen>
                   gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      colors: [Color(0xff000000), Colors.transparent])),
-              padding:
-                  EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-              child: SizedBox(
+                      colors: [Colors.black, Colors.transparent])),
+              padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
                 height: AppBar().preferredSize.height,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Material(
-                      color: Colors.transparent,
-                      child: IconButton(
-                          onPressed: () => Navigator.of(context).pop(),
-                          icon: const Icon(
+                child: Material(
+                  color: Colors.transparent,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                          onTap: () => Navigator.of(context).pop(),
+                          child: const Icon(
                             Icons.keyboard_arrow_down,
                             color: Colors.white,
                             size: 32,
                           )),
-                    )
-                  ],
+                      Expanded(
+                          child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Text(
+                            "取什么歌名好呢",
+                            style: TextStyle(fontSize: 16, color: Colors.white),
+                          ),
+                          Text(
+                            "Caico",
+                            style: TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.w300),
+                          )
+                        ],
+                      )),
+                      GestureDetector(
+                          child: const Icon(
+                            Icons.ios_share,
+                            color: Colors.white,
+                            size: 32,
+                          ))
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -105,15 +125,9 @@ class _MusicScreenState extends State<MusicScreen>
                 child: RotationTransition(
                   turns: rotationAnimation!,
                   child: Container(
-                    width: 240,
-                    height: 240,
-                    decoration:
-                        BoxDecoration(shape: BoxShape.circle, boxShadow: [
-                      BoxShadow(
-                          color: AppTheme.grey.withOpacity(0.6),
-                          offset: const Offset(2, 4),
-                          blurRadius: 8)
-                    ]),
+                    width: 200,
+                    height: 200,
+                    decoration: const BoxDecoration(shape: BoxShape.circle),
                     child: ClipRRect(
                       borderRadius:
                           const BorderRadius.all(Radius.circular(120)),
