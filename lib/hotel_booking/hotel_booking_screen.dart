@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:startup_namer/hotel_booking/calendar_popup_view.dart';
 import 'package:startup_namer/hotel_booking/hotel_app_theme.dart';
 import 'package:startup_namer/model/hotel_list.dart';
 
@@ -188,7 +189,19 @@ class _HotelBookingScreenState extends State<HotelBookingScreen>
   }
 
   void _showDemoDialog({required BuildContext context}) {
-    showDialog(context: context, builder: (context) => const Text("TODO"));
+    showDialog(context: context, builder: (context) => CalendarPopupView(
+      barrierDismissible: true,
+      minimumDate: DateTime.now(),
+      //  maximumDate: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day + 10),
+      initialEndDate: endDate,
+      initialStartDate: startDate,
+      onApplyClick: (DateTime startData, DateTime endData) {
+        setState(() {
+          startDate = startData;
+          endDate = endData;
+        });
+      },
+    ));
   }
 
   Widget _buildTimeDate() {
