@@ -12,19 +12,19 @@ class HomeList {
 
   static List<HomeList> homeList = [
     HomeList(
-        imagePath: 'assets/introduction_animation/introduction_animation.png',
+        imagePath: 'assets/images/img01.png',
         navigateScreen: const IntroductionAnimationScreen()
     ),
     HomeList(
-        imagePath: 'assets/hotel/hotel_booking.png',
+        imagePath: 'assets/images/img02.png',
         navigateScreen: const HotelBookingScreen()
     ),
     HomeList(
-        imagePath: 'assets/fitness_app/fitness_app.png',
+        imagePath: 'assets/images/img03.png',
         navigateScreen: const FitnessAppScreen()
     ),
     HomeList(
-        imagePath: 'assets/design_course/design_course.png',
+        imagePath: 'assets/images/img04.png',
         navigateScreen: const DesignCourseScreen()
     ),
   ];
